@@ -1,0 +1,606 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1EF134DAAF731220EDC9CB153D855453 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
+		248EF51D34FED8002F1D289864A234C0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
+		54C3BB04ED068EB9216C85D37E90D6FF /* Pods-Weather-App-iOS-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C7999A86A3C11D60D6324194D77669E8 /* Pods-Weather-App-iOS-dummy.m */; };
+		5856301B566594256C0897BE11189445 /* MKMagneticProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2627E3E4D2C40DE9D50C48E71621F5B4 /* MKMagneticProgress.swift */; };
+		DCFA3B48ADA519BF45BD21BF5E8A1388 /* MKMagneticProgress-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D0966969E35B29377B5D2884C3D7F14 /* MKMagneticProgress-dummy.m */; };
+		E5D3853D7605FF5E3B90AB8D5075202B /* Pods-Weather-App-iOS-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 888ADC83453AA9F2AA829ED2E33AADC0 /* Pods-Weather-App-iOS-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F3EE46C85C8CEA56C056EB95617F41CC /* MKMagneticProgress-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B9859DC229F888BA22BE84B14DEEEAA /* MKMagneticProgress-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		18F879AFB1420BA096DA772FD93F9640 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2E1ADAC0F2A5F71E821303C4D909A00E;
+			remoteInfo = MKMagneticProgress;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		02060E9E91AE2AEC57A5C1F28A849D69 /* Pods-Weather-App-iOS */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-Weather-App-iOS"; path = Pods_Weather_App_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0B9859DC229F888BA22BE84B14DEEEAA /* MKMagneticProgress-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MKMagneticProgress-umbrella.h"; sourceTree = "<group>"; };
+		0D0966969E35B29377B5D2884C3D7F14 /* MKMagneticProgress-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "MKMagneticProgress-dummy.m"; sourceTree = "<group>"; };
+		2627E3E4D2C40DE9D50C48E71621F5B4 /* MKMagneticProgress.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MKMagneticProgress.swift; path = MKMagneticProgress/Classes/MKMagneticProgress.swift; sourceTree = "<group>"; };
+		2BD59558620DA515BECAE442386ACC0A /* Pods-Weather-App-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Weather-App-iOS.release.xcconfig"; sourceTree = "<group>"; };
+		457F3CA203950FF5A9C9DCDD32FAA87E /* Pods-Weather-App-iOS.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Weather-App-iOS.modulemap"; sourceTree = "<group>"; };
+		4F0279739E2886DCCEB03021E40EBB16 /* Pods-Weather-App-iOS-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Weather-App-iOS-Info.plist"; sourceTree = "<group>"; };
+		54668AA03D99A8A0517B0381CF80AF79 /* MKMagneticProgress.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MKMagneticProgress.debug.xcconfig; sourceTree = "<group>"; };
+		69A210420E30CD908D39E290403EFBCC /* MKMagneticProgress */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = MKMagneticProgress; path = MKMagneticProgress.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B6BFF3E414FC9FB58425FC16142B7BF /* Pods-Weather-App-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Weather-App-iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		709DF60A1F4CE1BB7F4A6F91A0E0F6F0 /* MKMagneticProgress.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = MKMagneticProgress.modulemap; sourceTree = "<group>"; };
+		7144B5DECC95FCB936EC27D5831D9C5B /* MKMagneticProgress-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "MKMagneticProgress-Info.plist"; sourceTree = "<group>"; };
+		73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		888ADC83453AA9F2AA829ED2E33AADC0 /* Pods-Weather-App-iOS-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Weather-App-iOS-umbrella.h"; sourceTree = "<group>"; };
+		90084927160625B394E999906A7343D9 /* Pods-Weather-App-iOS-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Weather-App-iOS-acknowledgements.markdown"; sourceTree = "<group>"; };
+		9018AB03345CF6E59CCD18E4AAEA2CAA /* MKMagneticProgress-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MKMagneticProgress-prefix.pch"; sourceTree = "<group>"; };
+		96BBB29D049FD5BD9BBF7236DAEE8018 /* MKMagneticProgress.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MKMagneticProgress.release.xcconfig; sourceTree = "<group>"; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		C48F3799CCC0611C84BFAC091D7B3003 /* Pods-Weather-App-iOS-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Weather-App-iOS-frameworks.sh"; sourceTree = "<group>"; };
+		C7999A86A3C11D60D6324194D77669E8 /* Pods-Weather-App-iOS-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Weather-App-iOS-dummy.m"; sourceTree = "<group>"; };
+		D204FB1F299723ED472075B308BDC9D2 /* Pods-Weather-App-iOS-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Weather-App-iOS-acknowledgements.plist"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B72692D36E85F6883DAD3B84896897BA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				248EF51D34FED8002F1D289864A234C0 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E94937312C156F245EC1825962E4250D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1EF134DAAF731220EDC9CB153D855453 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		578452D2E740E91742655AC8F1636D1F /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		5ACF32DE9A058D1FF01D8D04F855EA9E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D44540C46452594A993244934BDA182E /* MKMagneticProgress */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		9CE36D1F4BAA8B285424EA51E71CB105 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				CE8C61CB2B6E56433E92145409A46FAB /* Pods-Weather-App-iOS */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		CE8C61CB2B6E56433E92145409A46FAB /* Pods-Weather-App-iOS */ = {
+			isa = PBXGroup;
+			children = (
+				457F3CA203950FF5A9C9DCDD32FAA87E /* Pods-Weather-App-iOS.modulemap */,
+				90084927160625B394E999906A7343D9 /* Pods-Weather-App-iOS-acknowledgements.markdown */,
+				D204FB1F299723ED472075B308BDC9D2 /* Pods-Weather-App-iOS-acknowledgements.plist */,
+				C7999A86A3C11D60D6324194D77669E8 /* Pods-Weather-App-iOS-dummy.m */,
+				C48F3799CCC0611C84BFAC091D7B3003 /* Pods-Weather-App-iOS-frameworks.sh */,
+				4F0279739E2886DCCEB03021E40EBB16 /* Pods-Weather-App-iOS-Info.plist */,
+				888ADC83453AA9F2AA829ED2E33AADC0 /* Pods-Weather-App-iOS-umbrella.h */,
+				6B6BFF3E414FC9FB58425FC16142B7BF /* Pods-Weather-App-iOS.debug.xcconfig */,
+				2BD59558620DA515BECAE442386ACC0A /* Pods-Weather-App-iOS.release.xcconfig */,
+			);
+			name = "Pods-Weather-App-iOS";
+			path = "Target Support Files/Pods-Weather-App-iOS";
+			sourceTree = "<group>";
+		};
+		CF1408CF629C7361332E53B88F7BD30C = {
+			isa = PBXGroup;
+			children = (
+				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
+				D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */,
+				5ACF32DE9A058D1FF01D8D04F855EA9E /* Pods */,
+				E4BC33601D09AC5942ACB9C88007B9DB /* Products */,
+				9CE36D1F4BAA8B285424EA51E71CB105 /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				578452D2E740E91742655AC8F1636D1F /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D44540C46452594A993244934BDA182E /* MKMagneticProgress */ = {
+			isa = PBXGroup;
+			children = (
+				2627E3E4D2C40DE9D50C48E71621F5B4 /* MKMagneticProgress.swift */,
+				DFB9BE5E21B2A9D8B8F8F7AB0FA9B6C2 /* Support Files */,
+			);
+			name = MKMagneticProgress;
+			path = MKMagneticProgress;
+			sourceTree = "<group>";
+		};
+		DFB9BE5E21B2A9D8B8F8F7AB0FA9B6C2 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				709DF60A1F4CE1BB7F4A6F91A0E0F6F0 /* MKMagneticProgress.modulemap */,
+				0D0966969E35B29377B5D2884C3D7F14 /* MKMagneticProgress-dummy.m */,
+				7144B5DECC95FCB936EC27D5831D9C5B /* MKMagneticProgress-Info.plist */,
+				9018AB03345CF6E59CCD18E4AAEA2CAA /* MKMagneticProgress-prefix.pch */,
+				0B9859DC229F888BA22BE84B14DEEEAA /* MKMagneticProgress-umbrella.h */,
+				54668AA03D99A8A0517B0381CF80AF79 /* MKMagneticProgress.debug.xcconfig */,
+				96BBB29D049FD5BD9BBF7236DAEE8018 /* MKMagneticProgress.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/MKMagneticProgress";
+			sourceTree = "<group>";
+		};
+		E4BC33601D09AC5942ACB9C88007B9DB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				69A210420E30CD908D39E290403EFBCC /* MKMagneticProgress */,
+				02060E9E91AE2AEC57A5C1F28A849D69 /* Pods-Weather-App-iOS */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		D9F3100D399A9BBD5EE9C9D088B757BF /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F3EE46C85C8CEA56C056EB95617F41CC /* MKMagneticProgress-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F6B96B64B4317493B7A59617A83D8463 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E5D3853D7605FF5E3B90AB8D5075202B /* Pods-Weather-App-iOS-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		2E1ADAC0F2A5F71E821303C4D909A00E /* MKMagneticProgress */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 94BA3134394BFC48916019B2EAD1C111 /* Build configuration list for PBXNativeTarget "MKMagneticProgress" */;
+			buildPhases = (
+				D9F3100D399A9BBD5EE9C9D088B757BF /* Headers */,
+				663022F4FDDF29890EF42D88BF0DBEEB /* Sources */,
+				B72692D36E85F6883DAD3B84896897BA /* Frameworks */,
+				1E16C6381228EB80354002A89C48BF15 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MKMagneticProgress;
+			productName = MKMagneticProgress;
+			productReference = 69A210420E30CD908D39E290403EFBCC /* MKMagneticProgress */;
+			productType = "com.apple.product-type.framework";
+		};
+		888AC7BFECC125674FBD1F5DC3229DFC /* Pods-Weather-App-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C46ECA8480472A190688EAE213BA5422 /* Build configuration list for PBXNativeTarget "Pods-Weather-App-iOS" */;
+			buildPhases = (
+				F6B96B64B4317493B7A59617A83D8463 /* Headers */,
+				F3680E541E36BF838D229496CB68C716 /* Sources */,
+				E94937312C156F245EC1825962E4250D /* Frameworks */,
+				35FC5CC16CD0347EC4381211140DE607 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				48BD339B2909646E7C8BE58896735451 /* PBXTargetDependency */,
+			);
+			name = "Pods-Weather-App-iOS";
+			productName = Pods_Weather_App_iOS;
+			productReference = 02060E9E91AE2AEC57A5C1F28A849D69 /* Pods-Weather-App-iOS */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BFDFE7DC352907FC980B868725387E98 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1300;
+				LastUpgradeCheck = 1300;
+			};
+			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
+			productRefGroup = E4BC33601D09AC5942ACB9C88007B9DB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2E1ADAC0F2A5F71E821303C4D909A00E /* MKMagneticProgress */,
+				888AC7BFECC125674FBD1F5DC3229DFC /* Pods-Weather-App-iOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1E16C6381228EB80354002A89C48BF15 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		35FC5CC16CD0347EC4381211140DE607 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		663022F4FDDF29890EF42D88BF0DBEEB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5856301B566594256C0897BE11189445 /* MKMagneticProgress.swift in Sources */,
+				DCFA3B48ADA519BF45BD21BF5E8A1388 /* MKMagneticProgress-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F3680E541E36BF838D229496CB68C716 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				54C3BB04ED068EB9216C85D37E90D6FF /* Pods-Weather-App-iOS-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		48BD339B2909646E7C8BE58896735451 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = MKMagneticProgress;
+			target = 2E1ADAC0F2A5F71E821303C4D909A00E /* MKMagneticProgress */;
+			targetProxy = 18F879AFB1420BA096DA772FD93F9640 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		146E6EC69EC0364B19244DF22FB0C57D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 96BBB29D049FD5BD9BBF7236DAEE8018 /* MKMagneticProgress.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/MKMagneticProgress/MKMagneticProgress-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/MKMagneticProgress/MKMagneticProgress-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/MKMagneticProgress/MKMagneticProgress.modulemap";
+				PRODUCT_MODULE_NAME = MKMagneticProgress;
+				PRODUCT_NAME = MKMagneticProgress;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		2FB2CF8AB33E35C5B5D1CC92A282673F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2BD59558620DA515BECAE442386ACC0A /* Pods-Weather-App-iOS.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-Weather-App-iOS/Pods-Weather-App-iOS-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-Weather-App-iOS/Pods-Weather-App-iOS.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		446BA1B9A1F1F2F95D04E5F82EB1B0F4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_DEBUG=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		5D47E2EFAC6FAC81A782D9BFD8736F53 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Release;
+		};
+		B1127B078FBDCE93A4A2777CB25716E4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 54668AA03D99A8A0517B0381CF80AF79 /* MKMagneticProgress.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/MKMagneticProgress/MKMagneticProgress-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/MKMagneticProgress/MKMagneticProgress-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/MKMagneticProgress/MKMagneticProgress.modulemap";
+				PRODUCT_MODULE_NAME = MKMagneticProgress;
+				PRODUCT_NAME = MKMagneticProgress;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		E58562D50151CB83B49090947E998D4A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6B6BFF3E414FC9FB58425FC16142B7BF /* Pods-Weather-App-iOS.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-Weather-App-iOS/Pods-Weather-App-iOS-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-Weather-App-iOS/Pods-Weather-App-iOS.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				446BA1B9A1F1F2F95D04E5F82EB1B0F4 /* Debug */,
+				5D47E2EFAC6FAC81A782D9BFD8736F53 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		94BA3134394BFC48916019B2EAD1C111 /* Build configuration list for PBXNativeTarget "MKMagneticProgress" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B1127B078FBDCE93A4A2777CB25716E4 /* Debug */,
+				146E6EC69EC0364B19244DF22FB0C57D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C46ECA8480472A190688EAE213BA5422 /* Build configuration list for PBXNativeTarget "Pods-Weather-App-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E58562D50151CB83B49090947E998D4A /* Debug */,
+				2FB2CF8AB33E35C5B5D1CC92A282673F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+}
