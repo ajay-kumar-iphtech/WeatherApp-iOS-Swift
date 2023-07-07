@@ -7,12 +7,14 @@
 
 import UIKit
 import MKMagneticProgress
+import CoreLocation
 
-class DescriptionViewController: UIViewController {
+class DescriptionViewController: UIViewController, CLLocationManagerDelegate {
     
-    @IBOutlet weak var cityName: UILabel!
-    @IBOutlet weak var weatherName: UILabel!
-    @IBOutlet weak var tempreture: UILabel!
+    //MARK: IBOutlets
+    @IBOutlet weak var cityNameLbl: UILabel!
+    @IBOutlet weak var weatherNameLbl: UILabel!
+    @IBOutlet weak var tempretureLbl: UILabel!
     @IBOutlet weak var uvLabel: UILabel!
     @IBOutlet weak var sunriseLabel: UILabel!
     @IBOutlet weak var sunsetLabel: UILabel!
@@ -21,7 +23,7 @@ class DescriptionViewController: UIViewController {
     @IBOutlet weak var humidityLbl: UILabel!
     @IBOutlet weak var uvProgress: UIProgressView!
     @IBOutlet weak var weatherImage: UIImageView!
-    @IBOutlet weak var speedoMeter : UIView!
+    @IBOutlet weak var speedoMeterView : UIView!
     @IBOutlet weak var magProgress:MKMagneticProgress!
     @IBOutlet weak var descriptionCollectionView: UICollectionView!
     @IBOutlet weak var descriptionView: UIView!
@@ -30,8 +32,13 @@ class DescriptionViewController: UIViewController {
     @IBOutlet weak var sunriseView: UIView!
     @IBOutlet weak var humidityView: UIView!
     @IBOutlet weak var wind1View: UIView!
+    @IBOutlet weak var saveDataButton: UIButton!
     
     
+    
+    
+    
+    //MARK: Properties
     private let speedometerView = SpeedometerView(frame: .zero, maxSpeed: 200)
     var city = ""
     var weather = ""
@@ -48,16 +55,19 @@ class DescriptionViewController: UIViewController {
     var apiWeatherValue:WeatherList? = nil
     var previousSelected : IndexPath?
     var currentSelected : Int?
-
+    var currentLocation: CLLocation!
+    
+    //MARK: Life Cycle Method
     override func viewDidLoad() {
         super.viewDidLoad()
         
         descriptionCollectionView.dataSource = self
         descriptionCollectionView.delegate = self
+        // locationManager.delegate = self
         
-        cityName.text = city
-        tempreture.text = "\(temp)°"
-        weatherName.text = day
+        cityNameLbl.text = city
+        tempretureLbl.text = "\(temp)°"
+        weatherNameLbl.text = day
         uvLabel.text = uvData
         regionlbl.text = day
         dateLbl.text = date
@@ -68,11 +78,24 @@ class DescriptionViewController: UIViewController {
         showProgressView()
         self.speedometerView.setSpeed(CGFloat(Int(windKph) ?? 0))
         print(windKph)
-        speedoMeter.addSubview(speedometerView)
+        speedoMeterView.addSubview(speedometerView)
         setCornerRadius()
-        getDataFromAPI()
+          getDataFromAPI()
+        callDataFromAPI()
+        setUpUI()
     }
- 
+    
+    //MARK: setUpUI
+    func setUpUI() {
+        
+        saveDataButton.layer.cornerRadius = 15
+        saveDataButton.layer.borderWidth = 0.5
+        saveDataButton.layer.masksToBounds = false
+        saveDataButton.layer.borderColor = UIColor.black.cgColor
+    }
+    
+    
+    //MARK: API Function
     func getDataFromAPI() {
         let apiURLString = "https://api.weatherapi.com/v1/forecast.json?key=20cbed94eb3249a8896170136232705&q=\(searchValue)&days=1&aqi=no&alerts=no"
         guard let url = URL(string: apiURLString) else {
@@ -97,14 +120,14 @@ class DescriptionViewController: UIViewController {
                     let sunrise = jsonData.forecast.forecastday[0].astro.sunrise
                     let sunset = jsonData.forecast.forecastday[0].astro.sunset
                     let humidity = "\(jsonData.current.humidity)"
-                    let windKph = "45" //"\(jsonData.current.windKph)"
+                    let windKph = "45"
                     
                     apiWeatherValue = WeatherList(weather: weather, country: country,region: region,city: city, temprature: temprature, image: image, uvIndex: uvIndex,sunrise: sunrise ,sunset: sunset,date: date, humidity: humidity, windKph: windKph)
                     DispatchQueue.main.async { [self] in
-                        cityName.text = city
+                        cityNameLbl.text = city
                         regionlbl.text = region
-                        weatherName.text = weather
-                        tempreture.text = "\(temprature)°"
+                        weatherNameLbl.text = weather
+                        tempretureLbl.text = "\(temprature)°"
                         uvLabel.text = uvIndex
                         sunriseLabel.text = "sunrise \(sunrise)"
                         sunsetLabel.text = "sunset \(sunset)"
@@ -128,6 +151,50 @@ class DescriptionViewController: UIViewController {
         }.resume()
     }
     
+    /// json serialization
+    func callDataFromAPI() {
+        let session = URLSession.shared
+        let serviceUrl = URL(string: "https://api.weatherapi.com/v1/forecast.json?key=20cbed94eb3249a8896170136232705&q=\(searchValue)&days=1&aqi=no&alerts=no")
+
+        let task = session.dataTask(with: serviceUrl!) { [weak self] (data, response, error) in
+            if error == nil {
+                let httpResponse = response as! HTTPURLResponse
+                if httpResponse.statusCode == 200 {
+                    let jsonData = try? JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
+                    if let result = jsonData as? [String: Any],
+                       let forecast = result["forecast"] as? [String: Any],
+                       let forecastDay = forecast["forecastday"] as? [[String: Any]],
+                       let firstDay = forecastDay.first,
+                       let date = firstDay["date"] as? String,
+                       let day = firstDay["day"] as? [String: Any],
+                       let humidity = day["avghumidity"] as? Int,
+                       let condition = day["condition"] as? [String: Any],
+                       let weather = condition["text"] as? String,
+                       let temperature = day["avgtemp_c"] as? Double {
+
+                        DispatchQueue.main.async {
+                            // Perform UI updates on the main thread
+                            self?.dateLbl.text = date
+                            self?.humidityLbl.text = "\(humidity)%"
+                            self?.weatherNameLbl.text = weather
+                            self?.tempretureLbl.text = "\(temperature)°C"
+                        }
+                    }
+                }
+            }
+        }
+        task.resume()
+    }
+    
+//    func getCityNameFromCoordinates(latitude: latitude, longitude: longitude) {
+//        
+//        
+//        
+//    }
+    
+    
+    
+    //MARK: ButtonAction
     @IBAction func saveAPIData(_ sender: Any) {
         let UserDefaultsKeys = "\(searchValue)"
         let defaults = UserDefaults.standard
@@ -135,7 +202,7 @@ class DescriptionViewController: UIViewController {
         if let data = apiWeatherValue {
             Key.viewWillAppear = false
             UserDefaultsManager.shared.addCityName(cityName: UserDefaultsKeys)
-
+            
             if let encoded = try? JSONEncoder().encode(apiWeatherValue) {
                 defaults.set(encoded, forKey: UserDefaultsKeys)
             }
@@ -145,7 +212,7 @@ class DescriptionViewController: UIViewController {
                 print("Decoded data: \(decodedData)")
             }
         }
-        
+        navigationController?.popViewController(animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -159,9 +226,8 @@ class DescriptionViewController: UIViewController {
         
     }
     
+    //MARK: GradientFunction
     func setGradientBackground() {
-        //        let colorTop =  UIColor(red: 255.0/255.0, green: 149.0/255.0, blue: 0.0/255.0, alpha: 1.0).cgColor
-        //        let colorBottom = UIColor(red: 255.0/255.0, green: 94.0/255.0, blue: 58.0/255.0, alpha: 1.0).cgColor
         
         let colorTop =  UIColor(red: 212.0/255.0, green: 66.0/255.0, blue: 226.0/255.0, alpha: 1.0).cgColor
         let colorBottom = UIColor(red: 68.0/255.0, green: 71.0/255.0, blue: 237.0/255.0, alpha: 1.0).cgColor
@@ -331,7 +397,7 @@ class DescriptionViewController: UIViewController {
         super.viewDidLayoutSubviews()
         
         speedometerView.frame.size = CGSize(width: 120 , height: 120)
-        self.speedometerView.center = CGPoint(x: speedoMeter.bounds.midX, y: speedoMeter.bounds.midY + 10)
+        self.speedometerView.center = CGPoint(x: speedoMeterView.bounds.midX, y: speedoMeterView.bounds.midY + 10)
     }
     
     func setCornerRadius() {
@@ -356,13 +422,20 @@ class DescriptionViewController: UIViewController {
     
 }
 
+//MARK: -extension
 extension DescriptionViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DescriptionCell", for: indexPath) as! DescriptionCollectionViewCell
+        
+        let today = Date()
+        let dateFormat = DateFormatter()
+        dateFormat.dateFormat = "dd MMM"
+        cell.currentDateLbl.text = dateFormat.string(from: today)
         
         if currentSelected != nil && currentSelected == indexPath.row
         {
@@ -393,6 +466,8 @@ extension DescriptionViewController: UICollectionViewDelegate, UICollectionViewD
             maskLayer.fillRule = CAShapeLayerFillRule.evenOdd
             maskLayer.fillColor = UIColor.red.cgColor
             cell.forecastView.layer.mask = maskLayer
+            
+            
         }else{
             cell.forecastView.backgroundColor = UIColor.white
         }
@@ -411,6 +486,7 @@ extension DescriptionViewController: UICollectionViewDelegate, UICollectionViewD
         let width = collectionView.frame.size.width
         return CGSize(width: width/4 - 20, height: width/3 + 40)
     }
+    
 }
 
 

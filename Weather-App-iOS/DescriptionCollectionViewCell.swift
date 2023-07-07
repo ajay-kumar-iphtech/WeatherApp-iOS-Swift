@@ -10,5 +10,7 @@ import UIKit
 class DescriptionCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var forecastView: UIView!
+    @IBOutlet weak var currentDateLbl: UILabel!
+    
     
 }

@@ -21,4 +21,5 @@ struct WeatherList: Codable  {
     var date: String
     var humidity: String
     var windKph: String
+    
 }
