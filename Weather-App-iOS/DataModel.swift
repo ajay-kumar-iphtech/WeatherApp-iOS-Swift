@@ -22,4 +22,13 @@ struct WeatherList: Codable  {
     var humidity: String
     var windKph: String
     
+    static func defaultWeatherList() -> [WeatherList] {
+        
+        var friendList = [WeatherList]()
+        friendList.append(WeatherList(weather: "cloudy", country: "India", region: "India",city: "", temprature: "34", image: " ",uvIndex: "AAA", sunrise: "BBB", sunset: "cloud", date: "7894561234",humidity: "AAA", windKph: "BBB"))
+    
+        return friendList
+    }
+    
+    
 }

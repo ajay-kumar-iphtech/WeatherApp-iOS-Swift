@@ -10,21 +10,33 @@ import CoreLocation
 
 class WeatherAppViewController: UIViewController {
     
-    
+    var cityName = "" {
+        didSet{
+            print("cityNam",cityName)
+            DispatchQueue.main.async {
+                self.weatherAppCollectionView.reloadData()
+            }
+        }
+    }
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var weatherAppCollectionView: UICollectionView!
-    @IBOutlet weak var countryNameLabel: UILabel!
+    @IBOutlet weak var cityNameLabel: UILabel!
     
     var arrayList :[WeatherList] =  []
     var searchValue = ""
+    var isMainViewHidden = false
+    var latitude:Double = 0.0
+    var longitude:Double = 0.0
     
     let locationManager = CLLocationManager()
-   // var currentLocation: CLLocation!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        arrayList = WeatherList.defaultWeatherList()
+        var cityName = getCityNameFromCoordinates(latitude: latitude, longitude: longitude)
         
+        self.cityName =  cityName
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.requestLocation()
@@ -90,6 +102,7 @@ class WeatherAppViewController: UIViewController {
             let mainS = UIStoryboard(name: "Main", bundle: nil)
             let vc = mainS.instantiateViewController(withIdentifier: "DescriptionViewController") as! DescriptionViewController
             vc.searchValue = searchValue
+            
             self.navigationController?.pushViewController(vc, animated:true)
         }
     }
@@ -102,18 +115,16 @@ class WeatherAppViewController: UIViewController {
 }
 
 extension WeatherAppViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print(arrayList.count)
-        print(arrayList)
+        print("Array's data are  = ", arrayList.count)
+        print("arrayList", arrayList)
         return arrayList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! WeatherAppCollectionViewCell
         
-        //   cell.mainView.layer.cornerRadius = 20
-//        let latitude = arrayList[indexPath.row].latitude
-//            cell.cityLbl.text = "\(latitude)"
+        let cell = weatherAppCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! WeatherAppCollectionViewCell
         
         if arrayList[indexPath.row].weather == "Partly cloudy" {
             print("Partly cloudy")
@@ -144,6 +155,7 @@ extension WeatherAppViewController: UICollectionViewDelegate, UICollectionViewDa
             maskLayer.fillRule = CAShapeLayerFillRule.evenOdd
             maskLayer.fillColor = UIColor.red.cgColor
             cell.mainView.layer.mask = maskLayer
+            
         } else if arrayList[indexPath.row].weather == "Sunny" {
             print("Sunny")
             let colorTop =  UIColor(red: 255.0/255.0, green: 149.0/255.0, blue: 0.0/255.0, alpha: 1.0).cgColor
@@ -234,7 +246,8 @@ extension WeatherAppViewController: UICollectionViewDelegate, UICollectionViewDa
         
         cell.countryLbl.text = arrayList[indexPath.row].country
         cell.regionLbl.text = arrayList[indexPath.row].region
-        cell.cityLbl.text = arrayList[indexPath.row].city
+        
+        cell.cityLbl.text = cityName
         cell.weatherLbl.text = arrayList[indexPath.row].weather
         cell.tempratureLbl.text = "\(arrayList[indexPath.row].temprature)°"
         let apiURLStrings = arrayList[indexPath.row].image
@@ -297,47 +310,48 @@ extension WeatherAppViewController: CLLocationManagerDelegate {
         }
         let latitude = location.coordinate.latitude
         let longitude = location.coordinate.longitude
-
+        
         // Do something with the user's location coordinates
         print("Latitude: \(latitude), Longitude: \(longitude)")
-
-        getCityNameFromCoordinates(latitude: latitude, longitude: longitude)
-
-            // Stop updating location to conserve battery
-            locationManager.stopUpdatingLocation()
-        }
+        
+        let str =  getCityNameFromCoordinates(latitude: latitude, longitude: longitude)
+        print("str is = ", str)
+        
+        // Stop updating location to conserve battery
+        locationManager.stopUpdatingLocation()
+    }
     
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         // Handle location error
         print("Location update failed with error: \(error.localizedDescription)")
     }
-   
-
-    func getCityNameFromCoordinates(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
-        
+    
+    
+    func getCityNameFromCoordinates(latitude: CLLocationDegrees, longitude: CLLocationDegrees) -> String {
+        var str = " "
         let location = CLLocation(latitude: latitude, longitude: longitude)
         let geocoder = CLGeocoder()
-
+        
         geocoder.reverseGeocodeLocation(location) { (placemarks, error) in
             if let error = error {
                 // Handle geocoding error
                 print("Reverse geocoding error: \(error.localizedDescription)")
                 return
             }
-
+            
             if let placemark = placemarks?.first {
                 if let city = placemark.locality {
-                    // Access the city name
                     print("City: \(city)")
-                    // Perform any further operations with the city name
-                    
+                    self.cityName = city
                     DispatchQueue.main.async {
-                        self.countryNameLabel.text = city
+                        self.cityNameLabel.text = city
+                        str = city
                     }
                 }
             }
         }
+        return str
     }
-
+    
 }

@@ -80,7 +80,7 @@ class DescriptionViewController: UIViewController, CLLocationManagerDelegate {
         print(windKph)
         speedoMeterView.addSubview(speedometerView)
         setCornerRadius()
-          getDataFromAPI()
+        getDataFromAPI()
         callDataFromAPI()
         setUpUI()
     }
@@ -155,7 +155,7 @@ class DescriptionViewController: UIViewController, CLLocationManagerDelegate {
     func callDataFromAPI() {
         let session = URLSession.shared
         let serviceUrl = URL(string: "https://api.weatherapi.com/v1/forecast.json?key=20cbed94eb3249a8896170136232705&q=\(searchValue)&days=1&aqi=no&alerts=no")
-
+        
         let task = session.dataTask(with: serviceUrl!) { [weak self] (data, response, error) in
             if error == nil {
                 let httpResponse = response as! HTTPURLResponse
@@ -171,7 +171,7 @@ class DescriptionViewController: UIViewController, CLLocationManagerDelegate {
                        let condition = day["condition"] as? [String: Any],
                        let weather = condition["text"] as? String,
                        let temperature = day["avgtemp_c"] as? Double {
-
+                        
                         DispatchQueue.main.async {
                             // Perform UI updates on the main thread
                             self?.dateLbl.text = date
@@ -185,14 +185,6 @@ class DescriptionViewController: UIViewController, CLLocationManagerDelegate {
         }
         task.resume()
     }
-    
-//    func getCityNameFromCoordinates(latitude: latitude, longitude: longitude) {
-//        
-//        
-//        
-//    }
-    
-    
     
     //MARK: ButtonAction
     @IBAction func saveAPIData(_ sender: Any) {
@@ -440,7 +432,6 @@ extension DescriptionViewController: UICollectionViewDelegate, UICollectionViewD
         if currentSelected != nil && currentSelected == indexPath.row
         {
             
-            //  cell.forecastView.backgroundColor = UIColor.green
             let colorTop =  UIColor(red: 212.0/255.0, green: 66.0/255.0, blue: 226.0/255.0, alpha: 1.0).cgColor
             let colorBottom = UIColor(red: 68.0/255.0, green: 71.0/255.0, blue: 237.0/255.0, alpha: 1.0).cgColor
             let gradientLayer = CAGradientLayer()
@@ -478,7 +469,6 @@ extension DescriptionViewController: UICollectionViewDelegate, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         currentSelected = indexPath.row
-        // For reload the selected cell
         self.descriptionCollectionView.reloadItems(at: [indexPath])
     }
     

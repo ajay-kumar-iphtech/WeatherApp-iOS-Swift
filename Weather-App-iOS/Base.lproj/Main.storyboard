@@ -164,7 +164,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="UmF-E7-2Hc"/>
                     <connections>
-                        <outlet property="countryNameLabel" destination="uoS-VQ-lkN" id="I7l-gE-pI7"/>
+                        <outlet property="cityNameLabel" destination="uoS-VQ-lkN" id="I7l-gE-pI7"/>
                         <outlet property="searchTextField" destination="1ER-g2-DP5" id="M9m-Nw-vdX"/>
                         <outlet property="weatherAppCollectionView" destination="gqc-zh-NCW" id="wVk-dx-XCm"/>
                     </connections>
