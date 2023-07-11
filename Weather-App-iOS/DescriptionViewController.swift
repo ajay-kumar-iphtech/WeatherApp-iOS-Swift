@@ -63,7 +63,7 @@ class DescriptionViewController: UIViewController, CLLocationManagerDelegate {
         
         descriptionCollectionView.dataSource = self
         descriptionCollectionView.delegate = self
-        // locationManager.delegate = self
+//         locationManager.delegate = self
         
         cityNameLbl.text = city
         tempretureLbl.text = "\(temp)°"
@@ -188,10 +188,11 @@ class DescriptionViewController: UIViewController, CLLocationManagerDelegate {
     
     //MARK: ButtonAction
     @IBAction func saveAPIData(_ sender: Any) {
+        dataSave = false
         let UserDefaultsKeys = "\(searchValue)"
         let defaults = UserDefaults.standard
         
-        if let data = apiWeatherValue {
+        if apiWeatherValue != nil {
             Key.viewWillAppear = false
             UserDefaultsManager.shared.addCityName(cityName: UserDefaultsKeys)
             
@@ -201,14 +202,17 @@ class DescriptionViewController: UIViewController, CLLocationManagerDelegate {
             let decoder = JSONDecoder()
             if let savedModel = defaults.value(forKey: UserDefaultsKeys) as? Data ,
                let decodedData = try? decoder.decode(WeatherList.self, from: savedModel) {
+                print("savedModel", savedModel)
                 print("Decoded data: \(decodedData)")
             }
         }
+
         navigationController?.popViewController(animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         setGradientBackground()
         setGradientBackground2()
         setGradientBackground3()

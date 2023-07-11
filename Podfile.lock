@@ -1,0 +1,16 @@
+PODS:
+  - MKMagneticProgress (1.4)
+
+DEPENDENCIES:
+  - MKMagneticProgress
+
+SPEC REPOS:
+  trunk:
+    - MKMagneticProgress
+
+SPEC CHECKSUMS:
+  MKMagneticProgress: 006b8c763d62986661bcde03794a3dcf56cd084a
+
+PODFILE CHECKSUM: 25196b988fe2c0ab682c89ff176f9345a80f37fb
+
+COCOAPODS: 1.12.0

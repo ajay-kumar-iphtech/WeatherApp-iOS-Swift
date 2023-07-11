@@ -7,7 +7,7 @@
 import MapKit
 import UIKit
 import CoreLocation
-
+var dataSave = true
 class WeatherAppViewController: UIViewController {
     
     var cityName = "" {
@@ -27,7 +27,8 @@ class WeatherAppViewController: UIViewController {
     var isMainViewHidden = false
     var latitude:Double = 0.0
     var longitude:Double = 0.0
-    
+    var selectedCityName: String?
+
     let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
@@ -247,7 +248,18 @@ extension WeatherAppViewController: UICollectionViewDelegate, UICollectionViewDa
         cell.countryLbl.text = arrayList[indexPath.row].country
         cell.regionLbl.text = arrayList[indexPath.row].region
         
-        cell.cityLbl.text = cityName
+        if dataSave{
+            cell.cityLbl.text = cityName
+
+        }else{
+            
+            cell.cityLbl.text = arrayList[indexPath.row].city
+
+
+        }
+   
+        
+        
         cell.weatherLbl.text = arrayList[indexPath.row].weather
         cell.tempratureLbl.text = "\(arrayList[indexPath.row].temprature)°"
         let apiURLStrings = arrayList[indexPath.row].image
@@ -270,6 +282,9 @@ extension WeatherAppViewController: UICollectionViewDelegate, UICollectionViewDa
         vc.humidity = arrayList[indexPath.row].humidity
         vc.windKph = arrayList[indexPath.row].windKph
         
+        selectedCityName = arrayList[indexPath.row].city
+        collectionView.reloadData()
+//
         let alertController = UIAlertController(title: "Delete Cell", message: "Are you sure you want to delete this cell?", preferredStyle: .alert)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -311,19 +326,16 @@ extension WeatherAppViewController: CLLocationManagerDelegate {
         let latitude = location.coordinate.latitude
         let longitude = location.coordinate.longitude
         
-        // Do something with the user's location coordinates
         print("Latitude: \(latitude), Longitude: \(longitude)")
         
         let str =  getCityNameFromCoordinates(latitude: latitude, longitude: longitude)
         print("str is = ", str)
         
-        // Stop updating location to conserve battery
         locationManager.stopUpdatingLocation()
     }
     
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        // Handle location error
         print("Location update failed with error: \(error.localizedDescription)")
     }
     
@@ -335,7 +347,6 @@ extension WeatherAppViewController: CLLocationManagerDelegate {
         
         geocoder.reverseGeocodeLocation(location) { (placemarks, error) in
             if let error = error {
-                // Handle geocoding error
                 print("Reverse geocoding error: \(error.localizedDescription)")
                 return
             }
@@ -344,10 +355,8 @@ extension WeatherAppViewController: CLLocationManagerDelegate {
                 if let city = placemark.locality {
                     print("City: \(city)")
                     self.cityName = city
-                    DispatchQueue.main.async {
-                        self.cityNameLabel.text = city
-                        str = city
-                    }
+                    str = city
+                    
                 }
             }
         }
