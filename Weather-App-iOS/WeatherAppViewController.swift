@@ -252,10 +252,11 @@ extension WeatherAppViewController: UICollectionViewDelegate, UICollectionViewDa
             cell.cityLbl.text = cityName
 
         }else{
-            
+            if indexPath.row == 0 {
+                    cell.isHidden = true
+                } 
             cell.cityLbl.text = arrayList[indexPath.row].city
-
-
+            arrayList.removeFirst(0)
         }
    
         
