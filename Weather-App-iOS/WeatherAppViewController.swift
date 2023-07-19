@@ -8,6 +8,7 @@ import MapKit
 import UIKit
 import CoreLocation
 var dataSave = true
+var str = " "
 class WeatherAppViewController: UIViewController {
     
     //MARK: - Outlets
@@ -20,6 +21,7 @@ class WeatherAppViewController: UIViewController {
         didSet{
             DispatchQueue.main.async {
                 self.weatherAppCollectionView.reloadData()
+                self.cityName = self.cityName
             }
         }
     }
@@ -35,6 +37,13 @@ class WeatherAppViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        arrayList = WeatherList.defaultWeatherList()
+        let cityName = getCityNameFromCoordinates(latitude: latitude, longitude: longitude) { cityName in
+            self.cityName = cityName
+            print("cityName = ", cityName)
+        }
+
         //assign location delegate
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
@@ -50,6 +59,7 @@ class WeatherAppViewController: UIViewController {
         
     }
     
+    /// if we remove this code the cell will not visible on save data
     override func viewWillAppear(_ animated: Bool) {
         if Key.viewWillAppear == false {
             if let weatherDataArray = getWeatherData(){
@@ -109,12 +119,17 @@ class WeatherAppViewController: UIViewController {
 extension WeatherAppViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print(arrayList.count)
         return arrayList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = weatherAppCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! WeatherAppCollectionViewCell
+        
+
         cell.setupCollectionViewCell(weatherData: arrayList[indexPath.row])
+        cell.cityLbl.text = str
+
         return cell
     }
     
@@ -165,10 +180,10 @@ extension WeatherAppViewController: CLLocationManagerDelegate {
         
         print("Latitude: \(latitude), Longitude: \(longitude)")
         
-        getCityNameFromCoordinates(latitude: latitude, longitude: longitude) { cityName in
+        var str =  getCityNameFromCoordinates(latitude: latitude, longitude: longitude) { cityName in
             self.cityName = cityName
         }
-        
+        print("the value of str is = ", str)
         locationManager.stopUpdatingLocation()
     }
     
@@ -178,7 +193,9 @@ extension WeatherAppViewController: CLLocationManagerDelegate {
     }
     
     
-    func getCityNameFromCoordinates(latitude: CLLocationDegrees, longitude: CLLocationDegrees,  completion : @escaping (String) -> Void ) {
+    func getCityNameFromCoordinates(latitude: CLLocationDegrees, longitude: CLLocationDegrees,  completion : @escaping (String) -> Void )  {
+        
+     
         let location = CLLocation(latitude: latitude, longitude: longitude)
         let geocoder = CLGeocoder()
         
@@ -187,9 +204,11 @@ extension WeatherAppViewController: CLLocationManagerDelegate {
                 print("Reverse geocoding error: \(error.localizedDescription)")
                 return
             }
-            
+           
             if let placemark = placemarks?.first {
                 if let city = placemark.locality {
+                    self.cityNameLabel.text = city
+                    str = city
                    completion(city)
                 }
                 else {
@@ -197,7 +216,7 @@ extension WeatherAppViewController: CLLocationManagerDelegate {
                 }
             }
         }
-        
+     
     }
     
 }

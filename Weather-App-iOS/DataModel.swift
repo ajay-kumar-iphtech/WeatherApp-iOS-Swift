@@ -8,6 +8,7 @@
 import Foundation
 
 struct WeatherList: Codable  {
+    
     var weather: String
     var country: String
     var region: String
@@ -31,3 +32,5 @@ struct WeatherList: Codable  {
     
     
 }
+
+

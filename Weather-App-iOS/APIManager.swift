@@ -28,6 +28,7 @@
 //
 //                        DispatchQueue.main.async {
 //                            // Perform UI updates on the main thread
+//                           
 //                            self?.dateLbl.text = date
 //                            self?.humidityLbl.text = "\(humidity)%"
 //                            self?.weatherNameLbl.text = weather
