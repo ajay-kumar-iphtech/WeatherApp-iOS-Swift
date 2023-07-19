@@ -10,18 +10,19 @@ import CoreLocation
 var dataSave = true
 class WeatherAppViewController: UIViewController {
     
+    //MARK: - Outlets
+    @IBOutlet weak var searchTextField: UITextField!
+    @IBOutlet weak var weatherAppCollectionView: UICollectionView!
+    @IBOutlet weak var cityNameLabel: UILabel!
+    
+    //MARK: - variables
     var cityName = "" {
         didSet{
-            print("cityNam",cityName)
             DispatchQueue.main.async {
                 self.weatherAppCollectionView.reloadData()
             }
         }
     }
-    @IBOutlet weak var searchTextField: UITextField!
-    @IBOutlet weak var weatherAppCollectionView: UICollectionView!
-    @IBOutlet weak var cityNameLabel: UILabel!
-    
     var arrayList :[WeatherList] =  []
     var searchValue = ""
     var isMainViewHidden = false
@@ -33,54 +34,50 @@ class WeatherAppViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //assign location delegate
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.requestLocation()
         locationManager.startUpdatingLocation()
         
-        setUpUI()
-        
-    }
-    
-    func setUpUI() {
-        
+        //collection view delegate
         weatherAppCollectionView.delegate = self
         weatherAppCollectionView.dataSource = self
+        
+        //need to check
         Key.viewWillAppear = false
         
     }
     
-    
     override func viewWillAppear(_ animated: Bool) {
         if Key.viewWillAppear == false {
-            if let weatherDataArray = getSavedWeatherData(){
+            if let weatherDataArray = getWeatherData(){
                 DispatchQueue.main.async {
                     self.arrayList = weatherDataArray
                     self.weatherAppCollectionView.reloadData()
+                    //need to check
                     Key.viewWillAppear = true
                 }
             }
         }
     }
     
-    func getSavedWeatherData() -> [WeatherList]?{
-        //get data for city list
-        let defaults = UserDefaults.standard
+    func getWeatherData() -> [WeatherList]?{
+        //get cities list
+        var weatherDataArray = [WeatherList]()
         let cityList = UserDefaultsManager.shared.getCityNameList()
-        print(cityList)
-        print("citylist = \(cityList.count)")
         if cityList.count > 0 {
-            
             //city list found
             //iterate through all cities
             for city in cityList {
                 let decoder = JSONDecoder()
-                if let savedModel = defaults.value(forKey: city) as? Data ,
-                   let decodedData = try? decoder.decode(WeatherList.self, from: savedModel) {
-                    print("arrayList = \(arrayList.count)")
+                if let savedDataInUserDefault = defaults.value(forKey: city) as? Data ,
+                   let cityWeatherData = try? decoder.decode(WeatherList.self, from: savedDataInUserDefault) {
+                    weatherDataArray.append(cityWeatherData)
                 }
             }
-            return arrayList
+            return weatherDataArray
         }
         else {
             return nil
@@ -112,152 +109,12 @@ class WeatherAppViewController: UIViewController {
 extension WeatherAppViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("Array's data are  = ", arrayList.count)
-        print("arrayList", arrayList)
         return arrayList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         let cell = weatherAppCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! WeatherAppCollectionViewCell
-        
-        if arrayList[indexPath.row].weather == "Partly cloudy" {
-            print("Partly cloudy")
-            print(arrayList[indexPath.row].weather)
-            let colorBottom =  UIColor(red: 81.0/255.0, green: 185.0/255.0, blue: 226.0/255.0, alpha: 1.0).cgColor
-            let colorTop = UIColor(red: 227.0/255.0, green: 227.0/255.0, blue: 227.0/255.0, alpha: 1.0).cgColor
-            let gradientLayer = CAGradientLayer()
-            gradientLayer.colors = [colorTop, colorBottom]
-            gradientLayer.locations = [0.0, 1.0]
-            // gradientLayer.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: self.view.frame.size.height)
-            gradientLayer.frame = cell.mainView.bounds
-            cell.mainView.layer.insertSublayer(gradientLayer, at:0)
-            
-            let cornerRadius = CGMutablePath()
-            
-            cornerRadius.move(to: CGPoint.init(x: 20, y: 0))
-            cornerRadius.addLine(to: CGPoint.init(x: cell.mainView.bounds.width - 20, y: 0))
-            cornerRadius.addQuadCurve(to: CGPoint.init(x: cell.mainView.bounds.width, y: 20), control: CGPoint.init(x: cell.mainView.bounds.width, y: 0))
-            cornerRadius.addLine(to: CGPoint.init(x: cell.mainView.bounds.width, y: cell.mainView.bounds.height - 20))
-            cornerRadius.addQuadCurve(to: CGPoint.init(x: cell.mainView.bounds.width - 20, y: cell.mainView.bounds.height), control: CGPoint.init(x: cell.mainView.bounds.width, y: cell.mainView.bounds.height))
-            cornerRadius.addLine(to: CGPoint.init(x: 20, y: cell.mainView.bounds.height))
-            cornerRadius.addQuadCurve(to: CGPoint.init(x: 0, y: cell.mainView.bounds.height - 20), control: CGPoint.init(x: 0, y: cell.mainView.bounds.height))
-            cornerRadius.addLine(to: CGPoint.init(x: 0, y: 20))
-            cornerRadius.addQuadCurve(to: CGPoint.init(x: 20, y: 0), control: CGPoint.init(x: 0, y: 0))
-            
-            let maskLayer = CAShapeLayer()
-            maskLayer.path = cornerRadius
-            maskLayer.fillRule = CAShapeLayerFillRule.evenOdd
-            maskLayer.fillColor = UIColor.red.cgColor
-            cell.mainView.layer.mask = maskLayer
-            
-        } else if arrayList[indexPath.row].weather == "Sunny" {
-            print("Sunny")
-            let colorTop =  UIColor(red: 255.0/255.0, green: 149.0/255.0, blue: 0.0/255.0, alpha: 1.0).cgColor
-            let colorBottom = UIColor(red: 255.0/255.0, green: 94.0/255.0, blue: 58.0/255.0, alpha: 1.0).cgColor
-            
-            let gradientLayer = CAGradientLayer()
-            gradientLayer.colors = [colorTop, colorBottom]
-            gradientLayer.locations = [0.0, 1.0]
-            //   gradientLayer.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: self.view.frame.size.height)
-            gradientLayer.frame = cell.mainView.bounds
-            cell.mainView.layer.insertSublayer(gradientLayer, at:0)
-            
-            let cornerRadius = CGMutablePath()
-            
-            cornerRadius.move(to: CGPoint.init(x: 20, y: 0))
-            cornerRadius.addLine(to: CGPoint.init(x: cell.mainView.bounds.width - 20, y: 0))
-            cornerRadius.addQuadCurve(to: CGPoint.init(x: cell.mainView.bounds.width, y: 20), control: CGPoint.init(x: cell.mainView.bounds.width, y: 0))
-            cornerRadius.addLine(to: CGPoint.init(x: cell.mainView.bounds.width, y: cell.mainView.bounds.height - 20))
-            cornerRadius.addQuadCurve(to: CGPoint.init(x: cell.mainView.bounds.width - 20, y: cell.mainView.bounds.height), control: CGPoint.init(x: cell.mainView.bounds.width, y: cell.mainView.bounds.height))
-            cornerRadius.addLine(to: CGPoint.init(x: 20, y: cell.mainView.bounds.height))
-            cornerRadius.addQuadCurve(to: CGPoint.init(x: 0, y: cell.mainView.bounds.height - 20), control: CGPoint.init(x: 0, y: cell.mainView.bounds.height))
-            cornerRadius.addLine(to: CGPoint.init(x: 0, y: 20))
-            cornerRadius.addQuadCurve(to: CGPoint.init(x: 20, y: 0), control: CGPoint.init(x: 0, y: 0))
-            
-            let maskLayer = CAShapeLayer()
-            maskLayer.path = cornerRadius
-            maskLayer.fillRule = CAShapeLayerFillRule.evenOdd
-            maskLayer.fillColor = UIColor.red.cgColor
-            cell.mainView.layer.mask = maskLayer
-        } else if arrayList[indexPath.row].weather == "Cloudy" {
-            print("Rainy")
-            let colorBottom =  UIColor(red: 156.0/255.0, green: 187.0/255.0, blue: 202.0/255.0, alpha: 1.0).cgColor
-            let colorTop = UIColor(red: 227.0/255.0, green: 227.0/255.0, blue: 227.0/255.0, alpha: 1.0).cgColor
-            
-            let gradientLayer = CAGradientLayer()
-            gradientLayer.colors = [colorTop, colorBottom]
-            gradientLayer.locations = [0.0, 1.0]
-            gradientLayer.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: self.view.frame.size.height)
-            // gradientLayer.frame = cell.mainView.bounds
-            cell.mainView.layer.insertSublayer(gradientLayer, at:0)
-            
-            let cornerRadius = CGMutablePath()
-            
-            cornerRadius.move(to: CGPoint.init(x: 20, y: 0))
-            cornerRadius.addLine(to: CGPoint.init(x: cell.mainView.bounds.width - 20, y: 0))
-            cornerRadius.addQuadCurve(to: CGPoint.init(x: cell.mainView.bounds.width, y: 20), control: CGPoint.init(x: cell.mainView.bounds.width, y: 0))
-            cornerRadius.addLine(to: CGPoint.init(x: cell.mainView.bounds.width, y: cell.mainView.bounds.height - 20))
-            cornerRadius.addQuadCurve(to: CGPoint.init(x: cell.mainView.bounds.width - 20, y: cell.mainView.bounds.height), control: CGPoint.init(x: cell.mainView.bounds.width, y: cell.mainView.bounds.height))
-            cornerRadius.addLine(to: CGPoint.init(x: 20, y: cell.mainView.bounds.height))
-            cornerRadius.addQuadCurve(to: CGPoint.init(x: 0, y: cell.mainView.bounds.height - 20), control: CGPoint.init(x: 0, y: cell.mainView.bounds.height))
-            cornerRadius.addLine(to: CGPoint.init(x: 0, y: 20))
-            cornerRadius.addQuadCurve(to: CGPoint.init(x: 20, y: 0), control: CGPoint.init(x: 0, y: 0))
-            
-            let maskLayer = CAShapeLayer()
-            maskLayer.path = cornerRadius
-            maskLayer.fillRule = CAShapeLayerFillRule.evenOdd
-            maskLayer.fillColor = UIColor.red.cgColor
-            cell.mainView.layer.mask = maskLayer
-        } else  {
-            let colorTop =  UIColor(red: 212.0/255.0, green: 66.0/255.0, blue: 226.0/255.0, alpha: 1.0).cgColor
-            let colorBottom = UIColor(red: 68.0/255.0, green: 71.0/255.0, blue: 237.0/255.0, alpha: 1.0).cgColor
-            
-            let gradientLayer = CAGradientLayer()
-            gradientLayer.colors = [colorTop, colorBottom]
-            gradientLayer.locations = [0.0, 1.0]
-            gradientLayer.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: self.view.frame.size.height)
-            //  gradientLayer.frame = cell.mainView.bounds
-            cell.mainView.layer.insertSublayer(gradientLayer, at:0)
-            
-            let cornerRadius = CGMutablePath()
-            
-            cornerRadius.move(to: CGPoint.init(x: 20, y: 0))
-            cornerRadius.addLine(to: CGPoint.init(x: cell.mainView.bounds.width - 20, y: 0))
-            cornerRadius.addQuadCurve(to: CGPoint.init(x: cell.mainView.bounds.width, y: 20), control: CGPoint.init(x: cell.mainView.bounds.width, y: 0))
-            cornerRadius.addLine(to: CGPoint.init(x: cell.mainView.bounds.width, y: cell.mainView.bounds.height - 20))
-            cornerRadius.addQuadCurve(to: CGPoint.init(x: cell.mainView.bounds.width - 20, y: cell.mainView.bounds.height), control: CGPoint.init(x: cell.mainView.bounds.width, y: cell.mainView.bounds.height))
-            cornerRadius.addLine(to: CGPoint.init(x: 20, y: cell.mainView.bounds.height))
-            cornerRadius.addQuadCurve(to: CGPoint.init(x: 0, y: cell.mainView.bounds.height - 20), control: CGPoint.init(x: 0, y: cell.mainView.bounds.height))
-            cornerRadius.addLine(to: CGPoint.init(x: 0, y: 20))
-            cornerRadius.addQuadCurve(to: CGPoint.init(x: 20, y: 0), control: CGPoint.init(x: 0, y: 0))
-            
-            let maskLayer = CAShapeLayer()
-            maskLayer.path = cornerRadius
-            maskLayer.fillRule = CAShapeLayerFillRule.evenOdd
-            maskLayer.fillColor = UIColor.red.cgColor
-            cell.mainView.layer.mask = maskLayer
-        }
-        
-        cell.countryLbl.text = arrayList[indexPath.row].country
-        cell.regionLbl.text = arrayList[indexPath.row].region
-        
-        //check what this line is doing
-//        if dataSave{
-//            cell.cityLbl.text = cityName
-//
-//        }else{
-//            if indexPath.row == 0 {
-//                cell.isHidden = true
-//                }
-//            cell.cityLbl.text = arrayList[indexPath.row].city
-//                        arrayList.removeFirst(0)
-//        }
-   
-        cell.weatherLbl.text = arrayList[indexPath.row].weather
-        cell.tempratureLbl.text = "\(arrayList[indexPath.row].temprature)°"
-        let apiURLStrings = arrayList[indexPath.row].image
-        cell.weatherImage.downloaded(from: apiURLStrings)
+        cell.setupCollectionViewCell(weatherData: arrayList[indexPath.row])
         return cell
     }
     
