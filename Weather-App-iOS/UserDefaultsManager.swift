@@ -6,7 +6,8 @@
 //
 
 import Foundation
-
+import UIKit
+var boolValue = false
 class UserDefaultsManager {
     //MARK: shared instance
     static let shared = UserDefaultsManager()
@@ -14,23 +15,48 @@ class UserDefaultsManager {
     let userDefaults = UserDefaults.standard
     
     //MARK: -Public functions
-    func addCityName(cityName: String){
-        //save city name key array
+//    func addCityName(cityName: String){
+//        //save city name key array
+//        if var cityArrayList = userDefaults.array(forKey: Key.cityArrayList) as? [String] {
+//                if cityArrayList.contains(cityName){
+//                    print("this data is already present")
+//                    boolValue = true
+//                }else {
+//
+//                    cityArrayList.append(cityName)
+//                    print(cityArrayList)
+//                    print("cityArrayList = \(cityArrayList.count)")
+//                    userDefaults.set(cityArrayList, forKey: Key.cityArrayList)
+//
+//                }
+//
+//        }
+//        else {
+//            //array not found
+//            userDefaults.set([cityName], forKey: Key.cityArrayList)
+//        }
+//    }
+    
+    func addCityName(cityName: String) {
+        let userDefaults = UserDefaults.standard
+        var boolValue = false
+        
         if var cityArrayList = userDefaults.array(forKey: Key.cityArrayList) as? [String] {
-                if !cityArrayList.contains(cityName){
-                    //add city name
-                    cityArrayList.append(cityName)
-                    print(cityArrayList)
-                    print("cityArrayList = \(cityArrayList.count)")
-                   
-                   
-
-                    userDefaults.set(cityArrayList, forKey: Key.cityArrayList)
-               }
-            
-        }
-        else {
-            //array not found
+            if cityArrayList.contains(cityName) {
+                // Data already present, show an alert
+                let alertController = UIAlertController(title: "Alert", message: "This data is already present", preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                UIApplication.shared.keyWindow?.rootViewController?.present(alertController, animated: true, completion: nil)
+                
+                boolValue = true
+            } else {
+                cityArrayList.append(cityName)
+                print(cityArrayList)
+                print("cityArrayList = \(cityArrayList.count)")
+                userDefaults.set(cityArrayList, forKey: Key.cityArrayList)
+            }
+        } else {
+            // Array not found
             userDefaults.set([cityName], forKey: Key.cityArrayList)
         }
     }

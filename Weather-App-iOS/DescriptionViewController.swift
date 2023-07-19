@@ -35,9 +35,6 @@ class DescriptionViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var saveDataButton: UIButton!
     
     
-    
-    
-    
     //MARK: Properties
     private let speedometerView = SpeedometerView(frame: .zero, maxSpeed: 200)
     var city = ""
@@ -56,6 +53,7 @@ class DescriptionViewController: UIViewController, CLLocationManagerDelegate {
     var previousSelected : IndexPath?
     var currentSelected : Int?
     var currentLocation: CLLocation!
+    
     
     //MARK: Life Cycle Method
     override func viewDidLoad() {
@@ -194,19 +192,40 @@ class DescriptionViewController: UIViewController, CLLocationManagerDelegate {
         
         if apiWeatherValue != nil {
             Key.viewWillAppear = false
-            UserDefaultsManager.shared.addCityName(cityName: UserDefaultsKeys)
+            //on home page view did load
+            //get al city array
+            //loop city array list
+            //get weather data of every city using city name
+            //show them to ui
             
-            if let encoded = try? JSONEncoder().encode(apiWeatherValue) {
-                defaults.set(encoded, forKey: UserDefaultsKeys)
+            //on clicking search button
+            //go on userdefault
+            //check for city list array
+            //if city present show popup     (Done)
+            //else hit api
+            
+            //on clicking save buton
+            //add city list to array
+            //get city list
+            //append your city to array
+            //replace city list array to userdefault
+            //add new entry with weather data using cityName as a key and weather data as a value
+            UserDefaultsManager.shared.addCityName(cityName: UserDefaultsKeys)
+          
+                if let encoded = try? JSONEncoder().encode(apiWeatherValue) {
+                    defaults.set(encoded, forKey: UserDefaultsKeys)
+                }
+                let decoder = JSONDecoder()
+                if let savedModel = defaults.value(forKey: UserDefaultsKeys) as? Data ,
+                   let decodedData = try? decoder.decode(WeatherList.self, from: savedModel) {
+                    print("savedModel", savedModel)
+                    print("Decoded data: \(decodedData)")
+                }
+            if boolValue == true {
+                
             }
-            let decoder = JSONDecoder()
-            if let savedModel = defaults.value(forKey: UserDefaultsKeys) as? Data ,
-               let decodedData = try? decoder.decode(WeatherList.self, from: savedModel) {
-                print("savedModel", savedModel)
-                print("Decoded data: \(decodedData)")
-            }
+            
         }
-
         navigationController?.popViewController(animated: true)
     }
     
@@ -482,6 +501,3 @@ extension DescriptionViewController: UICollectionViewDelegate, UICollectionViewD
     }
     
 }
-
-
-

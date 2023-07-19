@@ -33,11 +33,6 @@ class WeatherAppViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        arrayList = WeatherList.defaultWeatherList()
-        var cityName = getCityNameFromCoordinates(latitude: latitude, longitude: longitude)
-        
-        self.cityName =  cityName
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.requestLocation()
@@ -82,7 +77,6 @@ class WeatherAppViewController: UIViewController {
                 let decoder = JSONDecoder()
                 if let savedModel = defaults.value(forKey: city) as? Data ,
                    let decodedData = try? decoder.decode(WeatherList.self, from: savedModel) {
-                    arrayList.append(decodedData)
                     print("arrayList = \(arrayList.count)")
                 }
             }
@@ -248,19 +242,18 @@ extension WeatherAppViewController: UICollectionViewDelegate, UICollectionViewDa
         cell.countryLbl.text = arrayList[indexPath.row].country
         cell.regionLbl.text = arrayList[indexPath.row].region
         
-        if dataSave{
-            cell.cityLbl.text = cityName
-
-        }else{
-            if indexPath.row == 0 {
-                    cell.isHidden = true
-                } 
-            cell.cityLbl.text = arrayList[indexPath.row].city
-            arrayList.removeFirst(0)
-        }
+        //check what this line is doing
+//        if dataSave{
+//            cell.cityLbl.text = cityName
+//
+//        }else{
+//            if indexPath.row == 0 {
+//                cell.isHidden = true
+//                }
+//            cell.cityLbl.text = arrayList[indexPath.row].city
+//                        arrayList.removeFirst(0)
+//        }
    
-        
-        
         cell.weatherLbl.text = arrayList[indexPath.row].weather
         cell.tempratureLbl.text = "\(arrayList[indexPath.row].temprature)°"
         let apiURLStrings = arrayList[indexPath.row].image
@@ -285,7 +278,7 @@ extension WeatherAppViewController: UICollectionViewDelegate, UICollectionViewDa
         
         selectedCityName = arrayList[indexPath.row].city
         collectionView.reloadData()
-//
+
         let alertController = UIAlertController(title: "Delete Cell", message: "Are you sure you want to delete this cell?", preferredStyle: .alert)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -329,8 +322,9 @@ extension WeatherAppViewController: CLLocationManagerDelegate {
         
         print("Latitude: \(latitude), Longitude: \(longitude)")
         
-        let str =  getCityNameFromCoordinates(latitude: latitude, longitude: longitude)
-        print("str is = ", str)
+        getCityNameFromCoordinates(latitude: latitude, longitude: longitude) { cityName in
+            self.cityName = cityName
+        }
         
         locationManager.stopUpdatingLocation()
     }
@@ -341,8 +335,7 @@ extension WeatherAppViewController: CLLocationManagerDelegate {
     }
     
     
-    func getCityNameFromCoordinates(latitude: CLLocationDegrees, longitude: CLLocationDegrees) -> String {
-        var str = " "
+    func getCityNameFromCoordinates(latitude: CLLocationDegrees, longitude: CLLocationDegrees,  completion : @escaping (String) -> Void ) {
         let location = CLLocation(latitude: latitude, longitude: longitude)
         let geocoder = CLGeocoder()
         
@@ -354,14 +347,14 @@ extension WeatherAppViewController: CLLocationManagerDelegate {
             
             if let placemark = placemarks?.first {
                 if let city = placemark.locality {
-                    print("City: \(city)")
-                    self.cityName = city
-                    str = city
-                    
+                   completion(city)
+                }
+                else {
+                    completion("")
                 }
             }
         }
-        return str
+        
     }
     
 }
