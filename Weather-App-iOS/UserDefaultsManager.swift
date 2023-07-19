@@ -9,34 +9,13 @@ import Foundation
 import UIKit
 var boolValue = false
 class UserDefaultsManager {
+    
     //MARK: shared instance
     static let shared = UserDefaultsManager()
     
     let userDefaults = UserDefaults.standard
     
     //MARK: -Public functions
-//    func addCityName(cityName: String){
-//        //save city name key array
-//        if var cityArrayList = userDefaults.array(forKey: Key.cityArrayList) as? [String] {
-//                if cityArrayList.contains(cityName){
-//                    print("this data is already present")
-//                    boolValue = true
-//                }else {
-//
-//                    cityArrayList.append(cityName)
-//                    print(cityArrayList)
-//                    print("cityArrayList = \(cityArrayList.count)")
-//                    userDefaults.set(cityArrayList, forKey: Key.cityArrayList)
-//
-//                }
-//
-//        }
-//        else {
-//            //array not found
-//            userDefaults.set([cityName], forKey: Key.cityArrayList)
-//        }
-//    }
-    
     func addCityName(cityName: String) {
         let userDefaults = UserDefaults.standard
         var boolValue = false
@@ -60,12 +39,6 @@ class UserDefaultsManager {
             userDefaults.set([cityName], forKey: Key.cityArrayList)
         }
     }
-    
-//    func saveAPIValue(apiWeatherValue: String) {
-//        if let encoded = try? JSONEncoder().encode(apiWeatherValue) {
-//            userDefaults.set(encoded, forKey: Key.cityArrayList)
-//        }
-//    }
     func getCityNameList() -> [String] {
         guard let cityArrayList = userDefaults.array(forKey: Key.cityArrayList) as? [String] else {
             return [String]()

@@ -136,20 +136,6 @@ extension WeatherAppViewController: UICollectionViewDelegate, UICollectionViewDa
         selectedCityName = arrayList[indexPath.row].city
         collectionView.reloadData()
 
-        let alertController = UIAlertController(title: "Delete Cell", message: "Are you sure you want to delete this cell?", preferredStyle: .alert)
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        alertController.addAction(cancelAction)
-        
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            self.arrayList.remove(at: indexPath.row)
-            collectionView.deleteItems(at: [indexPath])
-        }
-        alertController.addAction(deleteAction)
-        
-        present(alertController, animated: true, completion: nil)
-        
-        
         //self.navigationController?.pushViewController(vc, animated:true)
     }
     

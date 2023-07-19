@@ -17,7 +17,6 @@ struct WeatherList: Codable  {
     var uvIndex:String
     var sunrise: String
     var sunset: String
-   // var day : String
     var date: String
     var humidity: String
     var windKph: String
