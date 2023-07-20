@@ -7,7 +7,6 @@
 
 import Foundation
 import UIKit
-var boolValue = false
 class UserDefaultsManager {
     
     //MARK: shared instance
@@ -18,7 +17,6 @@ class UserDefaultsManager {
     //MARK: -Public functions
     func addCityName(cityName: String) {
         let userDefaults = UserDefaults.standard
-        var boolValue = false
         
         if var cityArrayList = userDefaults.array(forKey: Key.cityArrayList) as? [String] {
             if cityArrayList.contains(cityName) {
@@ -27,7 +25,6 @@ class UserDefaultsManager {
                 alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 UIApplication.shared.keyWindow?.rootViewController?.present(alertController, animated: true, completion: nil)
                 
-                boolValue = true
             } else {
                 cityArrayList.append(cityName)
                 print(cityArrayList)
@@ -44,5 +41,47 @@ class UserDefaultsManager {
             return [String]()
         }
         return cityArrayList
+    }
+    
+    func isCityDataPresent(cityName: String) -> Bool {
+        let cityArray = getCityNameList()
+        if cityArray.contains(cityName){
+            
+            return true
+        }
+        else {
+            return false
+        }
+    }
+    
+    func addCityData(cityName: String, data: ForcastWeather){
+        do {
+            try userDefaults.setObject(data, forKey: cityName)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func getCityData(byCityName city: String) -> ForcastWeather?{
+        do {
+            let cityData = try userDefaults.getObject(forKey: city, castTo: ForcastWeather.self)
+            return cityData
+        } catch {
+            print(error.localizedDescription)
+            return nil
+        }
+
+    }
+    func getAllCityData(cityArray: [String]) -> [ForcastWeather]? {
+        var citiesDataArray = [ForcastWeather]()
+        for item in cityArray{
+            if let cityData = getCityData(byCityName: item){
+                citiesDataArray.append(cityData)
+            }
+        }
+        if citiesDataArray.count > 0{
+            return citiesDataArray
+        }
+        return nil
     }
 }

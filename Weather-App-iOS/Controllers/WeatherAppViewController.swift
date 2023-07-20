@@ -9,6 +9,7 @@ import UIKit
 import CoreLocation
 var dataSave = true
 var str = " "
+
 class WeatherAppViewController: UIViewController {
     
     //MARK: - Outlets
@@ -17,32 +18,23 @@ class WeatherAppViewController: UIViewController {
     @IBOutlet weak var cityNameLabel: UILabel!
     
     //MARK: - variables
-    var cityName = "" {
+    var cityName = ""
+    var arrayList :[ForcastWeather] = []{
         didSet{
             DispatchQueue.main.async {
                 self.weatherAppCollectionView.reloadData()
-                self.cityName = self.cityName
             }
         }
     }
-    var arrayList :[WeatherList] =  []
     var searchValue = ""
     var isMainViewHidden = false
     var latitude:Double = 0.0
     var longitude:Double = 0.0
     var selectedCityName: String?
-
     let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        arrayList = WeatherList.defaultWeatherList()
-        let cityName = getCityNameFromCoordinates(latitude: latitude, longitude: longitude) { cityName in
-            self.cityName = cityName
-            print("cityName = ", cityName)
-        }
 
         //assign location delegate
         locationManager.delegate = self
@@ -61,38 +53,32 @@ class WeatherAppViewController: UIViewController {
     
     /// if we remove this code the cell will not visible on save data
     override func viewWillAppear(_ animated: Bool) {
-        if Key.viewWillAppear == false {
-            if let weatherDataArray = getWeatherData(){
-                DispatchQueue.main.async {
-                    self.arrayList = weatherDataArray
-                    self.weatherAppCollectionView.reloadData()
-                    //need to check
-                    Key.viewWillAppear = true
-                }
-            }
+        let cities = UserDefaultsManager.shared.getCityNameList()
+        if let citiesData = UserDefaultsManager.shared.getAllCityData(cityArray: cities) {
+            arrayList = citiesData
         }
     }
     
-    func getWeatherData() -> [WeatherList]?{
-        //get cities list
-        var weatherDataArray = [WeatherList]()
-        let cityList = UserDefaultsManager.shared.getCityNameList()
-        if cityList.count > 0 {
-            //city list found
-            //iterate through all cities
-            for city in cityList {
-                let decoder = JSONDecoder()
-                if let savedDataInUserDefault = defaults.value(forKey: city) as? Data ,
-                   let cityWeatherData = try? decoder.decode(WeatherList.self, from: savedDataInUserDefault) {
-                    weatherDataArray.append(cityWeatherData)
-                }
-            }
-            return weatherDataArray
-        }
-        else {
-            return nil
-        }
-    }
+//    func getWeatherData() -> [WeatherList]?{
+//        //get cities list
+//        var weatherDataArray = [WeatherList]()
+//        let cityList = UserDefaultsManager.shared.getCityNameList()
+//        if cityList.count > 0 {
+//            //city list found
+//            //iterate through all cities
+//            for city in cityList {
+//                let decoder = JSONDecoder()
+//                if let savedDataInUserDefault = defaults.value(forKey: city) as? Data ,
+//                   let cityWeatherData = try? decoder.decode(WeatherList.self, from: savedDataInUserDefault) {
+//                    weatherDataArray.append(cityWeatherData)
+//                }
+//            }
+//            return weatherDataArray
+//        }
+//        else {
+//            return nil
+//        }
+//    }
     
     @IBAction func searchButton(_ sender: Any) {
         searchValue = searchTextField.text!
@@ -104,7 +90,7 @@ class WeatherAppViewController: UIViewController {
             let mainS = UIStoryboard(name: "Main", bundle: nil)
             let vc = mainS.instantiateViewController(withIdentifier: "DescriptionViewController") as! DescriptionViewController
             vc.searchValue = searchValue
-            
+            print(searchTextField)
             self.navigationController?.pushViewController(vc, animated:true)
         }
     }
@@ -126,10 +112,12 @@ extension WeatherAppViewController: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = weatherAppCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! WeatherAppCollectionViewCell
         
+        
+        
 
         cell.setupCollectionViewCell(weatherData: arrayList[indexPath.row])
-        cell.cityLbl.text = str
-
+      //  cell.cityLbl.text = str
+        let UserDefaultsKeys = "\(searchValue)"
         return cell
     }
     
@@ -137,19 +125,18 @@ extension WeatherAppViewController: UICollectionViewDelegate, UICollectionViewDa
         
         let mainS = UIStoryboard(name: "Main", bundle: nil)
         let vc = mainS.instantiateViewController(withIdentifier: "DescriptionViewController") as! DescriptionViewController
-        vc.city = arrayList[indexPath.row].city
-        vc.temp = arrayList[indexPath.row].temprature
-        vc.weatherImg = arrayList[indexPath.row].image
-        vc.uvData = arrayList[indexPath.row].uvIndex
-        vc.day = arrayList[indexPath.row].region
-        vc.sunset = arrayList[indexPath.row].sunset
-        vc.sunrise = arrayList[indexPath.row].sunrise
-        vc.date = arrayList[indexPath.row].date
-        vc.humidity = arrayList[indexPath.row].humidity
-        vc.windKph = arrayList[indexPath.row].windKph
-        
-        selectedCityName = arrayList[indexPath.row].city
-        collectionView.reloadData()
+        vc.city = arrayList[indexPath.row].location?.name ?? ""
+        vc.temp = "\(arrayList[indexPath.row].current?.tempC ?? 0)"
+//        vc.weatherImg = arrayList[indexPath.row].image
+//        vc.uvData = arrayList[indexPath.row].uvIndex
+//        vc.day = arrayList[indexPath.row].region
+//        vc.sunset = arrayList[indexPath.row].sunset
+//        vc.sunrise = arrayList[indexPath.row].sunrise
+//        vc.date = arrayList[indexPath.row].date
+//        vc.humidity = arrayList[indexPath.row].humidity
+//        vc.windKph = arrayList[indexPath.row].windKph
+//        
+//        selectedCityName = arrayList[indexPath.row].city
 
         //self.navigationController?.pushViewController(vc, animated:true)
     }
@@ -180,13 +167,33 @@ extension WeatherAppViewController: CLLocationManagerDelegate {
         
         print("Latitude: \(latitude), Longitude: \(longitude)")
         
-        var str =  getCityNameFromCoordinates(latitude: latitude, longitude: longitude) { cityName in
-            self.cityName = cityName
+        getCityNameFromCoordinates(latitude: latitude, longitude: longitude) { cityName in
+            if !UserDefaultsManager.shared.isCityDataPresent(cityName: cityName){
+                APIManager.shared.getWeatherData(city: "\(cityName)") { result in
+                    switch result {
+                    case .success(let forcastData):
+                        DispatchQueue.main.async {
+                            UserDefaultsManager.shared.addCityData(cityName: cityName, data: forcastData)
+                            UserDefaultsManager.shared.addCityName(cityName: cityName)
+                            self.arrayList.append(forcastData)
+                        }
+                    case .failure(let error):
+                        
+                        print(error)
+                    }
+                }
+            }
+            else {
+                //show popup :- city already present
+//                let alertController = UIAlertController(title: "Alert", message: "This data is already present", preferredStyle: .alert)
+//                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+//                UIApplication.shared.keyWindow?.rootViewController?.present(alertController, animated: true, completion: nil)
+            }
         }
         print("the value of str is = ", str)
         locationManager.stopUpdatingLocation()
     }
-    
+   
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Location update failed with error: \(error.localizedDescription)")
@@ -209,7 +216,10 @@ extension WeatherAppViewController: CLLocationManagerDelegate {
                 if let city = placemark.locality {
                     self.cityNameLabel.text = city
                     str = city
-                   completion(city)
+                    
+                    // Save the city name to UserDefaults
+                    UserDefaults.standard.set(str, forKey: "cityName")
+                    completion(city)
                 }
                 else {
                     completion("")

@@ -33,7 +33,7 @@ class WeatherAppCollectionViewCell: UICollectionViewCell {
         mainView.layer.mask = maskLayer
     }
     
-    func setupCollectionViewCell(weatherData: WeatherList){
+    func setupCollectionViewCell(weatherData: ForcastWeather){
         
         if WeatherCategory.partlyCloudy.rawValue == "Partly cloudy" {
             self.setupBackground(topColor: ColorConstant.partlyCloudyTop, bottomColor: ColorConstant.partlyCloudyBottom)
@@ -48,13 +48,13 @@ class WeatherAppCollectionViewCell: UICollectionViewCell {
             self.setupBackground(topColor: ColorConstant.otherTop, bottomColor: ColorConstant.otherBottom)
         }
         
-        countryLbl.text = weatherData.country
-        regionLbl.text = weatherData.region
-        cityLbl.text = weatherData.city
-        weatherLbl.text = weatherData.weather
-        tempratureLbl.text = "\(weatherData.temprature)°"
-        let apiURLStrings = weatherData.image
-        weatherImage.downloaded(from: apiURLStrings)
+        countryLbl.text = weatherData.location?.country ?? ""
+        regionLbl.text = weatherData.location?.name ?? ""
+        cityLbl.text = weatherData.location?.region ?? ""
+   //     weatherLbl.text = weatherData.current?.cloud ?? 0
+//        tempratureLbl.text = "\(weatherData.temprature)°"
+//        let apiURLStrings = weatherData.image
+//        weatherImage.downloaded(from: apiURLStrings)
         
     }
 }

@@ -49,7 +49,7 @@ class DescriptionViewController: UIViewController, CLLocationManagerDelegate {
     var humidity = ""
     var windKph = ""
     var searchValue = ""
-    var apiWeatherValue:WeatherList? = nil
+    var apiWeatherValue:ForcastWeather? = nil
     var previousSelected : IndexPath?
     var currentSelected : Int?
     var currentLocation: CLLocation!
@@ -78,10 +78,42 @@ class DescriptionViewController: UIViewController, CLLocationManagerDelegate {
         print(windKph)
         speedoMeterView.addSubview(speedometerView)
         setCornerRadius()
-        getDataFromAPI()
-        callDataFromAPI()
+        if !UserDefaultsManager.shared.isCityDataPresent(cityName: searchValue){
+            APIManager.shared.getWeatherData(city: searchValue, days: 1) { result in
+                switch result {
+                case .success(let forcastData):
+                    print(forcastData)
+                    self.apiWeatherValue = forcastData
+                    DispatchQueue.main.async { [self] in
+                        cityNameLbl.text = forcastData.location?.name ?? ""
+                        regionlbl.text = forcastData.location?.region ?? ""
+                        weatherNameLbl.text = forcastData.current?.condition?.text ?? ""
+                        tempretureLbl.text =  "\(forcastData.current?.tempC ?? 0)"
+                        uvLabel.text = "\(forcastData.current?.uv ?? 0)"
+                        sunriseLabel.text = "sunrise \(forcastData.forecast?.forecastday?.first?.astro?.sunrise ?? "00:00")"
+                        sunsetLabel.text = "sunset \(forcastData.forecast?.forecastday?.first?.astro?.sunset ?? "00:00")"
+                        dateLbl.text = forcastData.forecast?.forecastday?.first?.date ?? "00-00-0000"
+                        humidityLbl.text = "\(forcastData.current?.humidity ?? 0)"
+                        
+                        let apiURLStrings = "https:\(String(describing: forcastData.current?.condition?.icon ?? ""))"
+                        weatherImage.downloaded(from: apiURLStrings)
+                        
+                    }
+                case .failure(let error):
+                    
+                    print(error)
+                }
+            }
+        }
+        else {
+            //show popup :- city already present
+            let alertController = UIAlertController(title: "Alert", message: "This data is already present", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            UIApplication.shared.keyWindow?.rootViewController?.present(alertController, animated: true, completion: nil)
+        }
         setUpUI()
     }
+    
     
     //MARK: setUpUI
     func setUpUI() {
@@ -92,139 +124,18 @@ class DescriptionViewController: UIViewController, CLLocationManagerDelegate {
         saveDataButton.layer.borderColor = UIColor.black.cgColor
     }
     
-    
-    //MARK: API Function
-    func getDataFromAPI() {
-        let apiURLString = "https://api.weatherapi.com/v1/forecast.json?key=20cbed94eb3249a8896170136232705&q=\(searchValue)&days=1&aqi=no&alerts=no"
-        guard let url = URL(string: apiURLString) else {
-            print(" failed to get URL!")
-            return
-        }
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        
-        URLSession.shared.dataTask(with: request) { [self] data, response, error in
-            if error == nil, let responseData = data {
-                do {
-                    let jsonData = try JSONDecoder().decode(Root.self, from: responseData)
-                    let image = "https:\(jsonData.current.condition.icon.rawValue)"
-                    let weather = jsonData.current.condition.text.rawValue
-                    let country = jsonData.location.country
-                    let region = jsonData.location.region
-                    let city = jsonData.location.name
-                    let temprature = "\(jsonData.current.tempC)"
-                    let uvIndex = "\(jsonData.current.uv)"
-                    let date = jsonData.forecast.forecastday[0].date
-                    let sunrise = jsonData.forecast.forecastday[0].astro.sunrise
-                    let sunset = jsonData.forecast.forecastday[0].astro.sunset
-                    let humidity = "\(jsonData.current.humidity)"
-                    let windKph = "45"
-                    
-                    apiWeatherValue = WeatherList(weather: weather, country: country,region: region,city: city, temprature: temprature, image: image, uvIndex: uvIndex,sunrise: sunrise ,sunset: sunset,date: date, humidity: humidity, windKph: windKph)
-                    DispatchQueue.main.async { [self] in
-                        cityNameLbl.text = city
-                        regionlbl.text = region
-                        weatherNameLbl.text = weather
-                        tempretureLbl.text = "\(temprature)°"
-                        uvLabel.text = uvIndex
-                        sunriseLabel.text = "sunrise \(sunrise)"
-                        sunsetLabel.text = "sunset \(sunset)"
-                        dateLbl.text = date
-                        humidityLbl.text = "\(humidity)%"
-                        
-                        let apiURLStrings = image
-                        weatherImage.downloaded(from: apiURLStrings)
-                        
-                    }
-                    
-                }
-                catch let error {
-                    print(error.localizedDescription)
-                }
-                
-            }
-            else{
-                print("No data found")
-            }
-        }.resume()
-    }
-    
-    /// json serialization
-    func callDataFromAPI() {
-        let session = URLSession.shared
-        let serviceUrl = URL(string: "https://api.weatherapi.com/v1/forecast.json?key=20cbed94eb3249a8896170136232705&q=\(searchValue)&days=1&aqi=no&alerts=no")
-        
-        let task = session.dataTask(with: serviceUrl!) { [weak self] (data, response, error) in
-            if error == nil {
-                let httpResponse = response as! HTTPURLResponse
-                if httpResponse.statusCode == 200 {
-                    let jsonData = try? JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
-                    if let result = jsonData as? [String: Any],
-                       let forecast = result["forecast"] as? [String: Any],
-                       let forecastDay = forecast["forecastday"] as? [[String: Any]],
-                       let firstDay = forecastDay.first,
-                       let date = firstDay["date"] as? String,
-                       let day = firstDay["day"] as? [String: Any],
-                       let humidity = day["avghumidity"] as? Int,
-                       let condition = day["condition"] as? [String: Any],
-                       let weather = condition["text"] as? String,
-                       let temperature = day["avgtemp_c"] as? Double {
-                        
-                        DispatchQueue.main.async {
-                            // Perform UI updates on the main thread
-                            self?.dateLbl.text = date
-                            self?.humidityLbl.text = "\(humidity)%"
-                            self?.weatherNameLbl.text = weather
-                            self?.tempretureLbl.text = "\(temperature)°C"
-                        }
-                    }
-                }
-            }
-        }
-        task.resume()
-    }
-    
     //MARK: ButtonAction
-    @IBAction func saveAPIData(_ sender: Any) {
-        dataSave = false
+    @IBAction func SaveButtonAction(_ sender: Any) {
+       
         let UserDefaultsKeys = "\(searchValue)"
         let defaults = UserDefaults.standard
         
         if apiWeatherValue != nil {
             Key.viewWillAppear = false
-            //on home page view did load
-            //get al city array
-            //loop city array list
-            //get weather data of every city using city name
-            //show them to ui
-            
-            //on clicking search button
-            //go on userdefault
-            //check for city list array
-            //if city present show popup     (Done)
-            //else hit api
-            
-            //on clicking save buton
-            //add city list to array
-            //get city list
-            //append your city to array
-            //replace city list array to userdefault
-            //add new entry with weather data using cityName as a key and weather data as a value
             UserDefaultsManager.shared.addCityName(cityName: UserDefaultsKeys)
-          
-                if let encoded = try? JSONEncoder().encode(apiWeatherValue) {
-                    defaults.set(encoded, forKey: UserDefaultsKeys)
-                }
-                let decoder = JSONDecoder()
-                if let savedModel = defaults.value(forKey: UserDefaultsKeys) as? Data ,
-                   let decodedData = try? decoder.decode(WeatherList.self, from: savedModel) {
-                    print("savedModel", savedModel)
-                    print("Decoded data: \(decodedData)")
-                }
-            if boolValue == true {
-                
-            }
-            
+            UserDefaultsManager.shared.addCityData(cityName: UserDefaultsKeys, data: apiWeatherValue!)
+
+               
         }
         navigationController?.popViewController(animated: true)
     }
