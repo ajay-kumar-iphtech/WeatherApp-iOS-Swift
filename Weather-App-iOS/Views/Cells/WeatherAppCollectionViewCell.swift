@@ -51,7 +51,7 @@ class WeatherAppCollectionViewCell: UICollectionViewCell {
         countryLbl.text = weatherData.location?.country ?? ""
         regionLbl.text = weatherData.location?.name ?? ""
         cityLbl.text = weatherData.location?.region ?? ""
-   //     weatherLbl.text = weatherData.current?.cloud ?? 0
+//        weatherLbl.text = "\(weatherData.current?.cloud)" ?? ""
 //        tempratureLbl.text = "\(weatherData.temprature)°"
 //        let apiURLStrings = weatherData.image
 //        weatherImage.downloaded(from: apiURLStrings)

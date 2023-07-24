@@ -107,9 +107,9 @@ class DescriptionViewController: UIViewController, CLLocationManagerDelegate {
         }
         else {
             //show popup :- city already present
-            let alertController = UIAlertController(title: "Alert", message: "This data is already present", preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            UIApplication.shared.keyWindow?.rootViewController?.present(alertController, animated: true, completion: nil)
+//            let alertController = UIAlertController(title: "Alert", message: "This data is already present", preferredStyle: .alert)
+//            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+//            UIApplication.shared.keyWindow?.rootViewController?.present(alertController, animated: true, completion: nil)
         }
         setUpUI()
     }
@@ -122,6 +122,32 @@ class DescriptionViewController: UIViewController, CLLocationManagerDelegate {
         saveDataButton.layer.borderWidth = 0.5
         saveDataButton.layer.masksToBounds = false
         saveDataButton.layer.borderColor = UIColor.black.cgColor
+        
+        APIManager.shared.getWeatherData(city: searchValue, days: 1) { result in
+            switch result {
+            case .success(let forcastData):
+                print(forcastData)
+                self.apiWeatherValue = forcastData
+                DispatchQueue.main.async { [self] in
+                    cityNameLbl.text = forcastData.location?.name ?? ""
+                    regionlbl.text = forcastData.location?.region ?? ""
+                    weatherNameLbl.text = forcastData.current?.condition?.text ?? ""
+                    tempretureLbl.text =  "\(forcastData.current?.tempC ?? 0)"
+                    uvLabel.text = "\(forcastData.current?.uv ?? 0)"
+                    sunriseLabel.text = "sunrise \(forcastData.forecast?.forecastday?.first?.astro?.sunrise ?? "00:00")"
+                    sunsetLabel.text = "sunset \(forcastData.forecast?.forecastday?.first?.astro?.sunset ?? "00:00")"
+                    dateLbl.text = forcastData.forecast?.forecastday?.first?.date ?? "00-00-0000"
+                    humidityLbl.text = "\(forcastData.current?.humidity ?? 0)"
+                    
+                    let apiURLStrings = "https:\(String(describing: forcastData.current?.condition?.icon ?? ""))"
+                    weatherImage.downloaded(from: apiURLStrings)
+                    
+                }
+            case .failure(let error):
+                
+                print(error)
+            }
+        }
     }
     
     //MARK: ButtonAction
@@ -135,7 +161,11 @@ class DescriptionViewController: UIViewController, CLLocationManagerDelegate {
             UserDefaultsManager.shared.addCityName(cityName: UserDefaultsKeys)
             UserDefaultsManager.shared.addCityData(cityName: UserDefaultsKeys, data: apiWeatherValue!)
 
-               
+        }else {
+            //show popup :- city already present
+            let alertController = UIAlertController(title: "Alert", message: "This data is already present", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            UIApplication.shared.keyWindow?.rootViewController?.present(alertController, animated: true, completion: nil)
         }
         navigationController?.popViewController(animated: true)
     }

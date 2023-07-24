@@ -110,13 +110,9 @@ extension WeatherAppViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         let cell = weatherAppCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! WeatherAppCollectionViewCell
-        
-        
-        
-
         cell.setupCollectionViewCell(weatherData: arrayList[indexPath.row])
-      //  cell.cityLbl.text = str
         let UserDefaultsKeys = "\(searchValue)"
         return cell
     }
@@ -127,17 +123,8 @@ extension WeatherAppViewController: UICollectionViewDelegate, UICollectionViewDa
         let vc = mainS.instantiateViewController(withIdentifier: "DescriptionViewController") as! DescriptionViewController
         vc.city = arrayList[indexPath.row].location?.name ?? ""
         vc.temp = "\(arrayList[indexPath.row].current?.tempC ?? 0)"
-//        vc.weatherImg = arrayList[indexPath.row].image
-//        vc.uvData = arrayList[indexPath.row].uvIndex
-//        vc.day = arrayList[indexPath.row].region
-//        vc.sunset = arrayList[indexPath.row].sunset
-//        vc.sunrise = arrayList[indexPath.row].sunrise
-//        vc.date = arrayList[indexPath.row].date
-//        vc.humidity = arrayList[indexPath.row].humidity
-//        vc.windKph = arrayList[indexPath.row].windKph
-//        
-//        selectedCityName = arrayList[indexPath.row].city
-
+        vc.day = "\(arrayList[indexPath.row].current?.isDay ?? 0)"
+//       
         //self.navigationController?.pushViewController(vc, animated:true)
     }
     
